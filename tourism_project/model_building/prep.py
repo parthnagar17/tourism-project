@@ -36,15 +36,15 @@ train_df, test_df = train_test_split(
 )
 
 #Save Locally
-os.makedirs("tourism_project_lcl/data/processed", exist_ok=True)
+os.makedirs("tourism_project/data/processed", exist_ok=True)
 
 train_df.to_csv(
-    "tourism_project_lcl/data/processed/train.csv",
+    "tourism_project/data/processed/train.csv",
     index=False
 )
 
 test_df.to_csv(
-    "tourism_project_lcl/data/processed/test.csv",
+    "tourism_project/data/processed/test.csv",
     index=False
 )
 
@@ -55,7 +55,7 @@ repo_id = "parth1706/tourism-package-predictions"
 repo_type = "dataset"
 
 api.upload_folder(
-    folder_path="tourism_project_lcl/data/processed/",
+    folder_path="tourism_project/data/processed/",
     repo_id=repo_id,
     repo_type=repo_type,
 )
