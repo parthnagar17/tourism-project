@@ -49,7 +49,14 @@ numeric_features = [
     "MonthlyIncome"
 ]
 
-
+categorical_features = [
+    "TypeofContact",
+    "Occupation",
+    "Gender",
+    "ProductPitched",
+    "MaritalStatus",
+    "Designation"
+]
 
 
 # Define the preprocessing steps
