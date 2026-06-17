@@ -26,38 +26,29 @@ for col in cat_cols:
 for col in num_cols:
     df[col].fillna(df[col].median(), inplace=True)
 
+target_col = 'ProdTaken'
+# Split into X (features) and y (target)
+X = df.drop(columns=[target_col])
+y = df[target_col]
 
-#Split into Train/Test
-train_df, test_df = train_test_split(
-    df,
-    test_size=0.2,
-    random_state=42,
-    stratify=df["ProdTaken"]
+# Perform train-test split
+Xtrain, Xtest, ytrain, ytest = train_test_split(
+    X, y, test_size=0.2, random_state=42
 )
 
-#Save Locally
-os.makedirs("tourism_project/data/processed", exist_ok=True)
+Xtrain.to_csv("Xtrain.csv",index=False)
+Xtest.to_csv("Xtest.csv",index=False)
+ytrain.to_csv("ytrain.csv",index=False)
+ytest.to_csv("ytest.csv",index=False)
 
-train_df.to_csv(
-    "tourism_project/data/processed/train.csv",
-    index=False
-)
+files = ["Xtrain.csv","Xtest.csv","ytrain.csv","ytest.csv"]
 
-test_df.to_csv(
-    "tourism_project/data/processed/test.csv",
-    index=False
-)
-
-print("Files saved successfully.")
-
-# Upload Train/Test Back to Hugging Face
-repo_id = "parth1706/tourism-package-predictions"
-repo_type = "dataset"
-
-api.upload_folder(
-    folder_path="tourism_project/data/processed/",
-    repo_id=repo_id,
-    repo_type=repo_type,
-)
+for file_path in files:
+    api.upload_file(
+        path_or_fileobj=file_path,
+        path_in_repo=file_path.split("/")[-1],  # just the filename
+        repo_id="parth1706/tourism-package-predictions",
+        repo_type="dataset",
+    )
 
 print("Files uploaded successfully!")
